@@ -7,6 +7,40 @@
 
 ---
 
+## ⬇️ 下载使用
+
+### 最省事：下载即用（180 KB，解压双击 `index.html`）
+
+**👉 [知源问病-v1.0.zip](https://github.com/zejunzhou69-ux/zhiyuan-wenbing/releases/download/v1.0.0/知源问病-v1.0.zip)**
+
+- 不需要装 Python，**不需要联网**，不需要注册
+- 解压后**双击 `index.html`** 就在浏览器打开
+- 数据不上传、不存储，全部计算在你自己的设备上完成
+- Chrome / Edge / Firefox / Safari 均可，手机浏览器同样适配
+
+包内附 `使用说明.md`，双击即可看。校验：`sha256sum -c SHA256SUMS.txt`
+
+### 其他下载方式
+
+| 想要 | 怎么做 |
+|---|---|
+| 源码打包 | 仓库右上角 <kbd>Code</kbd> → <kbd>Download ZIP</kbd> |
+| 全部版本 | [Releases 页面](https://github.com/zejunzhou69-ux/zhiyuan-wenbing/releases) |
+| 克隆源码 | `git clone https://github.com/zejunzhou69-ux/zhiyuan-wenbing.git` |
+
+### 手机上怎么用
+
+手机需要网址，本地包打不开。两种办法：
+
+1. **部署一份到自己的静态托管**（免费）：把 `static/` 目录上传到
+   GitHub Pages / Cloudflare Pages / Vercel，手机浏览器打开那个网址
+2. **同一 Wi-Fi 下局域网共用**：电脑上执行 `npx serve static`，
+   手机浏览器打开 `http://电脑IP:3000`
+
+> 想省事的话，Cloudflare Pages 部署只要一条命令，见文末「部署」。
+
+---
+
 ## 两种模式
 
 同一套知识库，两个遍历方向。数据一个字节都没多，区别只是入口和顺序。
