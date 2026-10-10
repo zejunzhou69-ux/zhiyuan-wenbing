@@ -33,8 +33,8 @@ STANDARD = {
     "任脉": 24, "督脉": 28,
 }
 
-# 必填字段：缺任何一项都拒绝写入，避免造出半成品数据
-REQUIRED = ("name", "code", "meridian", "location",
+# code 允许为空（待核）；为空则只校验其他字段
+REQUIRED = ("name", "meridian", "location",
             "anatomy_note", "depth_limit", "indications",
             "needling", "contraindication")
 
@@ -48,6 +48,9 @@ def check(items: list[dict]) -> list[str]:
             v = a.get(k)
             if v is None or (isinstance(v, str) and not v.strip()) or (isinstance(v, list) and not v):
                 errs.append(f"{tag}: 缺 {k}")
+        # code 可空，但若为空必须写明待核原因，否则等于漏填
+        if not a.get("code") and not a.get("code_note"):
+            errs.append(f"{tag}: code 为空但未写 code_note 说明待核原因")
         if not isinstance(a.get("indications"), list):
             errs.append(f"{tag}: indications 必须是 list")
     return errs
@@ -98,16 +101,19 @@ def apply(items: list[dict], batch: str) -> int:
     conflicts = []
 
     for a in items:
-        owner = have_code.get(a["code"])
+        code = a.get("code", "")
+        # code 允许为空：表示编码待核（录入时凭记忆没把握的穴）。
+        # 与其硬写一个可能是错的编码，不如留空并写明待核，定位与主治不受影响。
+        owner = have_code.get(code) if code else None
         if owner is not None and owner != a["name"]:
             conflicts.append(
-                f"编码冲突：{a['code']} 已被「{owner}」占用，"
+                f"编码冲突：{code} 已被「{owner}」占用，"
                 f"但本批要录「{a['name']}」——请先修占用者的编码")
-        if a["code"] in have_code or a["name"] in have_name:
+        if (code and code in have_code) or a["name"] in have_name:
             skipped.append(a["name"])
             continue
         rec = {
-            "id": f"A{seq:03d}", "name": a["name"], "code": a["code"],
+            "id": f"A{seq:03d}", "name": a["name"],
             "source_system": "经穴", "meridian": a["meridian"],
             "location": a["location"], "anatomy_note": a["anatomy_note"],
             "depth_limit": a["depth_limit"], "indications": a["indications"],
@@ -115,8 +121,15 @@ def apply(items: list[dict], batch: str) -> int:
             "self_moxa_safe": a.get("self_moxa_safe", False),
             "verified": False,
         }
+        if a.get("code"):
+            rec["code"] = a["code"]
+        else:
+            rec["code"] = ""
+            if a.get("code_note"):
+                rec["code_note"] = a["code_note"]
         data["acupoints"].append(rec)
-        have_code[a["code"]] = a["name"]
+        if a.get("code"):
+            have_code[a["code"]] = a["name"]
         have_name.add(a["name"])
         seq += 1
         added += 1
