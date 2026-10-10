@@ -1,0 +1,20 @@
+﻿# ---- 绝不能上传的东西 ----
+# 教材原文切片：等于把整本书搬上网，涉及版权
+knowledge/textbook.jsonl
+knowledge/textbook_raw*.json
+# 原始教材 PDF
+*.pdf
+# 模型 API key
+config/config.json
+.env
+.env.*
+# venv / node
+__pycache__/
+*.pyc
+node_modules/
+.venv/
+venv/
+# 系统
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,8 @@
+﻿{
+  // 可选：AI 代理 Worker。不部署也不影响主站功能。
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "zhiyuan-wenbing-ai",
+  "main": "worker/index.js",
+  "compatibility_date": "2025-01-01",
+  "observability": { "enabled": true }
+}

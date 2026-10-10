@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>知源问病 · 中医辨证问诊</title>
+<meta name="description" content="望闻问切四诊合参，辨证论治。以中医执业医师资格考试标准，覆盖方剂、中药、针灸（含董氏奇穴）、推拿。">
+<meta name="theme-color" content="#8a6d4b">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<header>
+  <h1>知源问病</h1>
+  <div class="tabs">
+    <button id="tabAsk" class="on" onclick="switchMode('ask')">问诊模式</button>
+    <button id="tabLook" onclick="switchMode('look')">查阅模式</button>
+  </div>
+  <span class="sub" id="modeDesc">症 → 辨证 → 方药针灸推拿</span>
+  <div class="progress" id="progWrap">
+    <div class="bar"><i id="bar" style="width:0%"></i></div>
+    <div class="meta" id="meta">加载知识库…</div>
+  </div>
+  <span class="badge" id="mode">规则引擎</span>
+</header>
+
+<main>
+  <!-- 问诊：基本信息 -->
+  <div class="card" id="setup">
+    <h2>先填 4 项基本信息（用来收紧用药与手法边界，比问症状更重要）</h2>
+    <div>
+      <label>性别 <select id="sex"><option value="female">女</option><option value="male">男</option></select></label>
+      <label>年龄 <input id="age" type="number" value="30" min="0" max="120" style="width:70px"></label>
+      <label>是否孕期 <select id="preg"><option value="0">否</option><option value="1">是</option></select></label>
+      <label>肝肾问题 <select id="lk"><option value="0">无</option><option value="1">有</option></select></label>
+    </div>
+    <div style="margin-top:10px">
+      <label style="display:block">正在吃的药（西药也写，帮你查相互作用）
+        <input id="meds" style="width:min(560px,100%);margin-top:6px" placeholder="例如：华法林 / 二甲双胍 / 氨氯地平；没有就留空">
+      </label>
+    </div>
+    <div style="margin-top:12px">
+      <button class="go" onclick="start()">开始问诊</button>
+      <span class="tip" style="margin-left:12px">急症（胸痛、嘴歪伴无力、抽搐、大出血等）系统会直接拦下让你去医院</span>
+    </div>
+  </div>
+
+  <!-- 查阅 -->
+  <div class="card hidden" id="lookup">
+    <h2>逆向查阅：病 → 证 → 症 → 方 → 穴 → 其他疗法</h2>
+    <div class="kindrow">
+      <button class="kind on" data-k="disease" onclick="setKind('disease')">按病查</button>
+      <button class="kind" data-k="symptom" onclick="setKind('symptom')">按症查</button>
+      <button class="kind" data-k="formula" onclick="setKind('formula')">按方查</button>
+      <button class="kind" data-k="acupoint" onclick="setKind('acupoint')">按穴查</button>
+      <button class="kind" data-k="therapy" onclick="setKind('therapy')">其他疗法</button>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="composer" style="margin-top:8px">
+      <input id="q" style="flex:1" placeholder="输入病名，如：咳嗽">
+      <button class="go" onclick="lookup()">查</button>
+    </div>
+    <div class="tip" id="kindTip"></div>
+  </div>
+
+  <div id="log"></div>
+
+  <div class="composer" id="askComposer">
+    <textarea id="inp" placeholder="用大白话说你的症状就行，比如：后脑勺疼三天了，怕风"></textarea>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <button class="go" onclick="send()">发送</button>
+      <button class="ghost" onclick="document.getElementById('inp').focus()">清空</button>
+    </div>
+  </div>
+  <div class="tip" id="disclaimer">本应用输出的是中医辨证思路与健康建议，不构成处方，不能替代执业医师面诊。用药前须经执业中医师复核签字。</div>
+</main>
+
+<footer>
+  <div id="statsLine">—</div>
+  <div style="margin-top:6px">
+    全部计算在你的浏览器里完成，数据不上传、不存储。本应用为学习与健康咨询参考，
+    <strong>不是医疗器械，不能替代执业医师面诊</strong>。
+  </div>
+</footer>
+
+<script src="js/bundle.js"></script>
+<script src="js/kb.js"></script>
+<script src="js/safety.js"></script>
+<script src="js/diagnose.js"></script>
+<script src="js/inverse.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

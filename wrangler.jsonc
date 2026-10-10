@@ -1,0 +1,8 @@
+﻿{
+  // 知源问病 · Cloudflare 配置
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "zhiyuan-wenbing",
+  "compatibility_date": "2025-01-01",
+  "pages_build_output_dir": "static",
+  "observability": { "enabled": true }
+}

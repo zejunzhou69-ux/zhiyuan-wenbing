@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>知源问病 · 中医辨证问诊</title>
+<style>
+  :root{--bg:#f6f3ec;--card:#fffdf8;--ink:#2b2620;--sub:#6b6358;--line:#e2dbcd;--accent:#8a6d4b;--ok:#4a7c59;--dan:#b03a2e}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",serif;line-height:1.75}
+  header{background:var(--card);border-bottom:1px solid var(--line);padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:sticky;top:0;z-index:9}
+  h1{margin:0;font-size:20px;letter-spacing:2px}
+  .sub{color:var(--sub);font-size:13px}
+  .tabs{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .tabs button{background:transparent;color:var(--sub);border:0;border-radius:0;padding:7px 18px;font-size:14px;cursor:pointer}
+  .tabs button.on{background:var(--accent);color:#fff}
+  .tabs button:hover{background:#efe7d8}
+  .tabs button.on:hover{background:var(--accent)}
+  .progress{flex:1;min-width:160px}
+  .bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+  .bar>i{display:block;height:100%;background:var(--accent);transition:width .3s}
+  .meta{font-size:12px;color:var(--sub);margin-top:4px}
+  main{max-width:920px;margin:0 auto;padding:20px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin-bottom:16px}
+  .card h2{margin:0 0 12px;font-size:15px;color:var(--accent)}
+  label{display:inline-flex;align-items:center;gap:6px;margin:6px 14px 6px 0;font-size:14px}
+  input,select,textarea{padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:#fff;font-family:inherit;font-size:14px}
+  button.go{background:var(--accent);color:#fff;border:0;border-radius:6px;padding:9px 20px;font-family:inherit;font-size:14px;cursor:pointer}
+  button.go:hover{filter:brightness(1.08)}
+  button.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent);border-radius:6px;padding:8px 16px;font-family:inherit;font-size:14px;cursor:pointer}
+  .msg{margin:0 0 16px;padding:14px 16px;border-radius:10px;max-width:100%;overflow-x:auto}
+  .msg.bot{background:var(--card);border:1px solid var(--line)}
+  .msg.me{background:#efe7d8;border:1px solid #ded1b9;margin-left:60px}
+  .msg h4{margin:0 0 8px;font-size:14px;color:var(--accent)}
+  .msg pre{white-space:pre-wrap;word-break:break-word;margin:0;font-family:inherit;font-size:14px}
+  .composer{display:flex;gap:10px;margin-top:8px}
+  .composer textarea{flex:1;padding:11px;border:1px solid var(--line);border-radius:8px;font-family:inherit;font-size:14px;resize:vertical;min-height:64px;background:var(--card)}
+  .tip{font-size:12px;color:var(--sub);margin-top:8px}
+  .badge{font-size:11px;padding:2px 8px;border-radius:10px;background:#eee6d6;color:var(--sub)}
+  .kindrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .kind{padding:6px 14px;border:1px solid var(--line);border-radius:20px;background:#fff;cursor:pointer;font-size:13px;font-family:inherit}
+  .kind.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 4px}
+  .chip{padding:3px 10px;background:#efe7d8;border-radius:12px;font-size:12px;cursor:pointer}
+  .chip:hover{background:#e3d6bd}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<header>
+  <h1>知源问病</h1>
+  <div class="tabs">
+    <button id="tabAsk" class="on" onclick="switchMode('ask')">问诊模式</button>
+    <button id="tabLook" onclick="switchMode('look')">查阅模式</button>
+  </div>
+  <span class="sub" id="modeDesc">症 → 辨证 → 方药针灸推拿</span>
+  <div class="progress" id="progWrap">
+    <div class="bar"><i id="bar" style="width:0%"></i></div>
+    <div class="meta" id="meta">未开始</div>
+  </div>
+  <span class="badge" id="mode">规则模式</span>
+</header>
+
+<main>
+  <!-- 问诊模式：基本信息 -->
+  <div class="card" id="setup">
+    <h2>先填 4 项基本信息（用来收紧用药与手法边界，比问症状更重要）</h2>
+    <div>
+      <label>性别 <select id="sex"><option value="female">女</option><option value="male">男</option></select></label>
+      <label>年龄 <input id="age" type="number" value="30" min="0" max="120" style="width:70px"></label>
+      <label>是否孕期 <select id="preg"><option value="0">否</option><option value="1">是</option></select></label>
+      <label>肝肾问题 <select id="lk"><option value="0">无</option><option value="1">有</option></select></label>
+    </div>
+    <div style="margin-top:10px">
+      <label style="display:block">正在吃的药（西药也写，帮你查相互作用）
+        <input id="meds" style="width:min(560px,100%);margin-top:6px" placeholder="例如：华法林 / 二甲双胍 / 氨氯地平；没有就留空">
+      </label>
+    </div>
+    <div style="margin-top:12px">
+      <button class="go" onclick="start()">开始问诊</button>
+      <span class="tip" style="margin-left:12px">急症（胸痛、嘴歪伴无力、抽搐、大出血等）系统会直接拦下让你去医院</span>
+    </div>
+  </div>
+
+  <!-- 查阅模式 -->
+  <div class="card hidden" id="lookup">
+    <h2>逆向查阅：病 → 证 → 症 → 方 → 穴 → 其他疗法</h2>
+    <div class="kindrow">
+      <button class="kind on" data-k="disease" onclick="setKind('disease')">按病查</button>
+      <button class="kind" data-k="symptom" onclick="setKind('symptom')">按症查</button>
+      <button class="kind" data-k="formula" onclick="setKind('formula')">按方查</button>
+      <button class="kind" data-k="acupoint" onclick="setKind('acupoint')">按穴查</button>
+      <button class="kind" data-k="therapy" onclick="setKind('therapy')">其他疗法</button>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="composer" style="margin-top:8px">
+      <input id="q" style="flex:1" placeholder="输入病名/症状/方名/穴名">
+      <button class="go" onclick="lookup()">查</button>
+    </div>
+    <div class="tip" id="kindTip"></div>
+  </div>
+
+  <div id="log"></div>
+
+  <div class="composer" id="askComposer">
+    <textarea id="inp" placeholder="用大白话说你的症状就行，比如：后脑勺疼三天了，怕风"></textarea>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <button class="go" onclick="send()">发送</button>
+      <button class="ghost" onclick="document.getElementById('inp').focus()">清空</button>
+    </div>
+  </div>
+  <div class="tip">本应用输出的是中医辨证思路与健康建议，不构成处方，不能替代执业医师面诊。用药前须经执业中医师复核签字。</div>
+</main>
+
+<script>
+let SID=null, MODE='ask', KIND='disease';
+const DISEASES=['感冒','咳嗽','头痛','眩晕','不寐','心悸','胃痛','泄泻','便秘','腹痛','胁痛','痹证','腰痛','郁证','水肿','消渴','月经不调','咽喉肿痛','口疮','鼻渊','小儿积食','小儿腹泻','小儿夜啼','遗尿'];
+const SYMPTOMS=['口苦','咽干','不思饮食','五更泻','头重如裹','自汗','盗汗','痛经','便溏','痰多','失眠','头晕','耳鸣','口干','乏力'];
+const FORMULAS=['逍遥散','柴胡疏肝散','半夏泻心汤','补中益气汤','六味地黄丸','血府逐瘀汤','温胆汤','甘麦大枣汤','半夏白术天麻汤','酸枣仁汤','平胃散','二陈汤','银翘散','麻黄汤','龙胆泻肝汤','天王补心丹','旋覆代赭汤','炙甘草汤','大承气汤','温经汤'];
+const ACUPOINTS=['合谷','太冲','足三里','三阴交','内关','神门','中脘','关元','气海','百会','风池','太溪','涌泉','丰隆','肺俞','肾俞','委中','阳陵泉','曲池','列缺'];
+const TIPS={
+  disease:'输入病名，输出该病完整证谱：每个证型的主症、舌脉、病机、鉴别、方药、经穴、董氏奇穴、推拿。点下面病名可快速填。',
+  symptom:'输入症状，输出哪些病哪些证会出现它。⚠️ 这是知识对照，不能据此自诊。',
+  formula:'输入方名，输出它的出处、组成、方义、类方鉴别、加减、禁忌，以及本库中哪些证型用它。',
+  acupoint:'输入穴名，输出定位、解剖层次、针刺深度上限、禁忌，以及本库中哪些证型用这个穴。经穴与董氏奇穴分开返回。',
+  therapy:'艾灸、拔罐、刮痧、刺络放血、灯火灸、药膳食疗、足浴、八段锦的做法与禁忌。'
+};
+function esc(s){return (s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+function add(who,text){
+  const d=document.createElement('div'); d.className='msg '+who;
+  d.innerHTML=(who==='bot'?'<h4>知源问病</h4>':'')+'<pre>'+esc(text)+'</pre>';
+  document.getElementById('log').appendChild(d);
+  window.scrollTo(0,document.body.scrollHeight);
+}
+function switchMode(m){
+  MODE=m;
+  document.getElementById('tabAsk').className = m==='ask'?'on':'';
+  document.getElementById('tabLook').className = m==='look'?'on':'';
+  document.getElementById('modeDesc').textContent = m==='ask'?'症 → 辨证 → 方药针灸推拿':'病 → 证 → 症 → 方 → 穴';
+  document.getElementById('setup').className = m==='ask'?'card':'card hidden';
+  document.getElementById('lookup').className = m==='look'?'card':'card hidden';
+  document.getElementById('askComposer').className = m==='ask'?'composer':'composer hidden';
+  document.getElementById('progWrap').style.display = m==='ask'?'block':'none';
+  if(m==='look') setKind(KIND);
+}
+function setKind(k){
+  KIND=k;
+  document.querySelectorAll('.kind').forEach(b=>b.className = b.dataset.k===k?'kind on':'kind');
+  const map={disease:DISEASES,symptom:SYMPTOMS,formula:FORMULAS,acupoint:ACUPOINTS,therapy:[]};
+  const ph={disease:'输入病名，如：咳嗽',symptom:'输入症状，如：口苦',formula:'输入方名，如：逍遥散',acupoint:'输入穴名，如：太冲',therapy:'点「查」看全部其他疗法'};
+  document.getElementById('q').placeholder = ph[k];
+  document.getElementById('kindTip').textContent = TIPS[k];
+  const box=document.getElementById('chips'); box.innerHTML='';
+  (map[k]||[]).forEach(w=>{
+    const s=document.createElement('span'); s.className='chip'; s.textContent=w;
+    s.onclick=()=>{document.getElementById('q').value=w; lookup();};
+    box.appendChild(s);
+  });
+}
+async function lookup(){
+  const t=document.getElementById('q').value.trim();
+  if(!t && KIND!=='therapy'){ add('bot','请输入要查的内容。'); return; }
+  document.getElementById('mode').textContent='查询中…';
+  const r=await fetch('/api/lookup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kind:KIND,text:t})});
+  const j=await r.json();
+  add('bot', j.ok? j.reply : ('出错了：'+j.error));
+  document.getElementById('mode').textContent='查阅模式';
+}
+async function start(){
+  const profile={sex:document.getElementById('sex').value,
+    age:parseInt(document.getElementById('age').value||'30',10),
+    pregnant:document.getElementById('preg').value==='1',
+    liver_kidney:document.getElementById('lk').value==='1',
+    medications:document.getElementById('meds').value?[document.getElementById('meds').value]:[]};
+  const r=await fetch('/api/new',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({profile})});
+  const j=await r.json(); SID=j.sid;
+  document.getElementById('setup').style.display='none';
+  add('bot', j.question+'\n\n我会一次问两个问题，你说「不知道」就行，我不会替你编。\n\n急症会直接拦下让你去医院——这类误诊的代价远大于多问一句。');
+}
+async function send(){
+  const inp=document.getElementById('inp'); const t=inp.value.trim();
+  if(!t||!SID) return;
+  inp.value=''; add('me',t);
+  document.getElementById('mode').textContent='思考中…';
+  const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sid:SID,text:t})});
+  const j=await r.json();
+  if(j.ok){
+    add('bot', j.reply);
+    const c=j.completeness;
+    document.getElementById('bar').style.width=c.percent+'%';
+    document.getElementById('meta').textContent='四诊采集 '+c.done+'/'+c.total+'（'+c.percent+'%）';
+    document.getElementById('mode').textContent=j.mode==='llm'?'模型+规则':'规则模式';
+  } else {
+    add('bot','出错了：'+(j.error||'未知'));
+    document.getElementById('mode').textContent='规则模式';
+  }
+}
+document.getElementById('inp').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
+document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Enter'){lookup();}});
+switchMode('ask');
+</script>
+</body>
+</html>
