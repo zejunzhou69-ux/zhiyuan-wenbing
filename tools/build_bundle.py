@@ -139,8 +139,15 @@ def fingerprint(out: Path) -> None:
     """
     h = hashlib.sha256(out.read_bytes()).hexdigest()[:10]
     hashed = out.with_name(f"bundle.{h}.js")
-    if not hashed.exists():
-        hashed.write_bytes(out.read_bytes())
+
+    # ⚠️ 先删全部旧指纹文件，再写新的。
+    # 之前的实现是「若 hashed 已存在就跳过复制」，结果当同名文件残留时
+    # index.html 会指向一个内容过期的旧 bundle——线上因此一直显示 173 穴。
+    # 指纹的前提是「文件名唯一对应内容」，所以必须保证不残留。
+    for old in out.parent.glob("bundle.*.js"):
+        old.unlink()
+        print(f"   清理旧版 {old.name}")
+    hashed.write_bytes(out.read_bytes())
 
     if INDEX.exists():
         html = INDEX.read_text(encoding="utf-8")
@@ -150,11 +157,18 @@ def fingerprint(out: Path) -> None:
             INDEX.write_text(new_html, encoding="utf-8")
             print(f"   index.html 已引用 bundle.{h}.js")
 
-    # 清掉上一轮遗留的指纹文件，避免 static/js 里堆一堆旧 bundle
-    for old in out.parent.glob("bundle.*.js"):
-        if old.name != hashed.name:
-            old.unlink()
-            print(f"   清理旧版 {old.name}")
+    # 自检：index.html 引用的文件必须存在，且内容与 bundle.js 完全一致。
+    # 指纹机制本身就是「靠引用指向内容」，这里验证它真的成立，
+    # 避免再次出现「引用有效但内容过期」且无人察觉的情况。
+    html = INDEX.read_text(encoding="utf-8")
+    m = re.search(r"js/(bundle(?:\.[0-9a-f]+)?\.js)", html)
+    assert m, "index.html 里找不到 bundle 引用"
+    ref = out.parent / m.group(1)
+    assert ref.exists(), f"index.html 引用的 {ref.name} 不存在！"
+    assert ref.read_bytes() == out.read_bytes(), (
+        f"index.html 引用的 {ref.name} 内容与 bundle.js 不一致！")
+    assert len(list(out.parent.glob("bundle.*.js"))) == 1, "static/js 里有多余的指纹文件"
+    print(f"   自检通过：{ref.name} 与 bundle.js 内容一致，且无残留")
 
 
 if __name__ == "__main__":
