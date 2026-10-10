@@ -29,7 +29,10 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
 VERSION = "1.0"
-APP_NAME = "知源问病"
+# ⚠️ zip 文件名必须用纯 ASCII。
+# 实测：中文名经 GitHub Release 分发后会被剥成「-v1.0.zip」，
+# 用户下载到的文件名是残缺的。包内文件名仍用中文，只有包名走 ASCII。
+ZIP_STEM = "zhiyuan-wenbing"
 
 # 不进包的目录：构建缓存与体积炸弹
 EXCLUDE_DIRS = {
@@ -146,7 +149,7 @@ def main() -> int:
     readme_path = OUT / "使用说明.md"
     readme_path.write_text(README_TEXT, encoding="utf-8")
 
-    zip_path = OUT / f"{APP_NAME}-v{ver}.zip"
+    zip_path = OUT / f"{ZIP_STEM}-v{ver}.zip"
     total = [0]
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
         # 1) 使用说明放最前，解压第一眼就能看到

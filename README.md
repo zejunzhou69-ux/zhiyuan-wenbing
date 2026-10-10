@@ -11,7 +11,7 @@
 
 ### 最省事：下载即用（180 KB，解压双击 `index.html`）
 
-**👉 [知源问病-v1.0.zip](https://github.com/zejunzhou69-ux/zhiyuan-wenbing/releases/download/v1.0.0/知源问病-v1.0.zip)**
+**👉 [zhiyuan-wenbing-v1.0.zip](https://github.com/zejunzhou69-ux/zhiyuan-wenbing/releases/download/v1.0.0/zhiyuan-wenbing-v1.0.zip)**
 
 - 不需要装 Python，**不需要联网**，不需要注册
 - 解压后**双击 `index.html`** 就在浏览器打开
