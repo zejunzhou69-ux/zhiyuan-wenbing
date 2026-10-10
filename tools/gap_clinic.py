@@ -84,6 +84,11 @@ TIERS = [(1, "临床超高频", TIER1), (2, "临床高频", TIER2)]
 def main() -> int:
     acu = json.loads((ROOT / "data" / "acupoints.json").read_text(encoding="utf-8"))
     have = {a["name"] for a in acu["acupoints"]}
+    # 别名也要算「已有」，否则「通谷」会被误判为缺失，
+    # 而它其实以「足通谷」之名在库中。
+    for a in acu["acupoints"]:
+        for al in a.get("alias", []) or []:
+            have.add(al)
 
     print(f"库内现有经穴及附条目：{len(have)}\n")
     grand_missing = 0
