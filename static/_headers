@@ -4,5 +4,11 @@
   X-Frame-Options: SAMEORIGIN
   Permissions-Policy: geolocation=(), microphone=(), camera=()
 
+# bundle.js 带内容指纹（bundle.<hash>.js），内容变了文件名就变，
+# 所以可以放心长期缓存——用户既拿到最新版，又不用重复下载 500KB。
+/js/bundle.*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+# 兜底：万一有没指纹的文件被引用，不允许缓存，避免旧数据
 /js/bundle.js
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=0, must-revalidate

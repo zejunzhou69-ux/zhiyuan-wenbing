@@ -59,7 +59,13 @@ const bad = [];
 const t = (n, c, e) => { if (c) pass++; else { fail++; bad.push(n + (e ? ' → ' + e : '')); } };
 
 console.log('1. 按 index.html 顺序加载脚本');
-const files = ['js/bundle.js', 'js/kb.js', 'js/safety.js', 'js/diagnose.js',
+// bundle 文件名带内容指纹（bundle.<hash>.js），从 index.html 里读实际引用，
+// 写死 'js/bundle.js' 会在启用指纹后失效。
+const indexHtml = await readFile(join(ROOT, 'static', 'index.html'), 'utf8');
+const bundleRef = (indexHtml.match(/js\/bundle(\.[0-9a-f]+)?\.js/) || [])[0];
+if (!bundleRef) { console.log('✗ index.html 里找不到 bundle 引用'); process.exit(1); }
+console.log(`   bundle 引用：${bundleRef}`);
+const files = [bundleRef, 'js/kb.js', 'js/safety.js', 'js/diagnose.js',
                'js/inverse.js', 'js/app.js'];
 for (const f of files) {
   const src = await readFile(join(ROOT, 'static', f), 'utf8');

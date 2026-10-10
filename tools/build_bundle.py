@@ -15,7 +15,9 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -25,6 +27,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 SRC = ROOT / "data"
 DEFAULT_OUT = ROOT / "static" / "js" / "bundle.js"
+INDEX = ROOT / "static" / "index.html"
 
 
 def load(name: str) -> dict:
@@ -116,11 +119,42 @@ def main() -> int:
     print(f"  病种 {len(data['diseases'])}｜证型 {len(data['syndromes'])}")
     print(f"  红旗 急症 {len(data['redflags']['emergency'])}｜必转诊 {len(data['redflags']['must_refer'])}")
 
-    # 确认没把不该传的东西打进去
+    # 确认没把不该传的东西打进去了
     low = text.lower()
     assert "apikey" not in low and "api_key" not in low, "包里混入了 API key！"
     print("\n✅ 未混入 API key")
+
+    fingerprint(out)
     return 0
+
+
+def fingerprint(out: Path) -> None:
+    """给 bundle 加内容指纹，并改写 index.html 的引用。
+
+    为什么必须做：static/_headers 里 bundle.js 设了24 小时缓存
+    （max-age=86400，这是为了省流量）。但知识库更新后 URL 不变，
+    浏览器就会继续用旧版 —— 实测发现补录穴位后线上仍显示旧的穴数。
+    内容指纹让「数据变了 -> 文件名变了 -> 浏览器必然拉新的」，
+    同时未变的内容仍能长期缓存，不必重复下载 500KB。
+    """
+    h = hashlib.sha256(out.read_bytes()).hexdigest()[:10]
+    hashed = out.with_name(f"bundle.{h}.js")
+    if not hashed.exists():
+        hashed.write_bytes(out.read_bytes())
+
+    if INDEX.exists():
+        html = INDEX.read_text(encoding="utf-8")
+        new_html = re.sub(r'js/bundle(\.[0-9a-f]+)?\.js',
+                          f'js/bundle.{h}.js', html)
+        if new_html != html:
+            INDEX.write_text(new_html, encoding="utf-8")
+            print(f"   index.html 已引用 bundle.{h}.js")
+
+    # 清掉上一轮遗留的指纹文件，避免 static/js 里堆一堆旧 bundle
+    for old in out.parent.glob("bundle.*.js"):
+        if old.name != hashed.name:
+            old.unlink()
+            print(f"   清理旧版 {old.name}")
 
 
 if __name__ == "__main__":

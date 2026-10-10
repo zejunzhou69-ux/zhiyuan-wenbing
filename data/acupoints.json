@@ -1808,7 +1808,7 @@
   },
   {
    "id": "A078",
-   "name": "悬钟（绝骨）",
+   "name": "悬钟",
    "code": "GB39",
    "source_system": "经穴",
    "meridian": "足少阳胆经",
@@ -1828,7 +1828,10 @@
    "needling": "直刺（八脉交会穴通髓会）；可灸。",
    "contraindication": "无特殊禁忌。",
    "self_moxa_safe": true,
-   "verified": false
+   "verified": false,
+   "alias": [
+    "绝骨"
+   ]
   },
   {
    "id": "A079",
@@ -2505,7 +2508,8 @@
    "needling": "向后平刺；可灸。",
    "contraindication": "禁直刺。",
    "self_moxa_safe": true,
-   "verified": false
+   "verified": false,
+   "note_entry": true
   },
   {
    "id": "A107",
@@ -2550,7 +2554,8 @@
    "needling": "艾灸为主，不主张自行针刺足底。",
    "contraindication": "足部皮肤破损、糖尿病感觉障碍者禁灸。",
    "self_moxa_safe": true,
-   "verified": false
+   "verified": false,
+   "note_entry": true
   },
   {
    "id": "A109",
@@ -2741,7 +2746,7 @@
   {
    "id": "A118",
    "name": "八正（八正穴说明）",
-   "code": "EX-LE5",
+   "code": "EX-LE8",
    "source_system": "奇穴（经外奇穴）",
    "meridian": "经外奇穴",
    "location": "在足外侧，外踝下缘，跖骨间背侧，第2趾间蹼纹端处，左右共8穴（内为公孙、外为本穴，合称八正穴）。",
@@ -2755,7 +2760,8 @@
    "needling": "浅刺；可灸。",
    "contraindication": "足背动脉处，勿深刺。",
    "self_moxa_safe": true,
-   "verified": false
+   "verified": false,
+   "note_entry": true
   },
   {
    "id": "A119",
@@ -2789,7 +2795,8 @@
    "needling": "艾灸为主。",
    "contraindication": "孕妇禁灸中脘与足三里强刺激。",
    "self_moxa_safe": true,
-   "verified": false
+   "verified": false,
+   "note_entry": true
   },
   {
    "id": "A121",
@@ -3668,6 +3675,283 @@
    ],
    "needling": "直刺；可灸。",
    "contraindication": "⚠️孕妇禁针。",
+   "self_moxa_safe": true,
+   "verified": false
+  },
+  {
+   "id": "A162",
+   "name": "腕骨",
+   "code": "SI5",
+   "source_system": "经穴",
+   "meridian": "手太阳小肠经",
+   "location": "在腕掌尺侧，第5掌骨桡侧与钩骨之间，尺侧腕屈肌腱的桡侧缘凹陷中。",
+   "anatomy_note": "浅层：尺动脉掌深支的腕掌侧动脉；深层：尺侧腕屈肌（尺神经与尺动脉掌浅支伴行）。⚠️穴内有尺神经与尺动脉分支。",
+   "depth_limit": "直刺0.3～0.5寸",
+   "indications": [
+    "头项强痛",
+    "耳鸣",
+    "目翳",
+    "黄疸",
+    "热病",
+    "指挛腕痛",
+    "落枕"
+   ],
+   "needling": "直刺；可灸。",
+   "contraindication": "⚠️尺动脉与尺神经在此经过，禁深刺、禁提插，以免伤及血管神经。",
+   "self_moxa_safe": true,
+   "verified": false
+  },
+  {
+   "id": "A163",
+   "name": "通里",
+   "code": "HT5",
+   "source_system": "经穴",
+   "meridian": "手少阴心经",
+   "location": "在前臂前区，尺侧腕屈肌腱的桡侧缘，腕横纹上1寸。",
+   "anatomy_note": "浅层：尺动脉掌浅支；深层：尺侧腕屈肌、尺神经。⚠️尺神经与尺动脉掌浅支在桡侧伴行。",
+   "depth_limit": "直刺0.3～0.5寸",
+   "indications": [
+    "心悸",
+    "怔忡",
+    "暴喑",
+    "舌强不语",
+    "腕臂痛"
+   ],
+   "needling": "直刺；可灸。",
+   "contraindication": "⚠️尺神经紧邻，禁深刺、禁大幅提插。",
+   "self_moxa_safe": true,
+   "verified": false
+  },
+  {
+   "id": "A164",
+   "name": "灵道",
+   "code": "HT4",
+   "source_system": "经穴",
+   "meridian": "手少阴心经",
+   "location": "在前臂前区，尺侧腕屈肌腱的桡侧缘，腕横纹上1.5寸。",
+   "anatomy_note": "浅层：尺动脉掌浅支；深层：尺侧腕屈肌、尺神经。",
+   "depth_limit": "直刺0.3～0.5寸",
+   "indications": [
+    "心痛",
+    "心悸",
+    "暴喑",
+    "肘臂挛痛"
+   ],
+   "needling": "直刺；可灸。",
+   "contraindication": "⚠️尺神经紧邻，禁深刺。",
+   "self_moxa_safe": true,
+   "verified": false
+  },
+  {
+   "id": "A165",
+   "name": "侠溪",
+   "code": "GB43",
+   "source_system": "经穴",
+   "meridian": "足少阳胆经",
+   "location": "在足背，第4、5跖骨间，第4跖骨底与第5跖骨底结合部之间的凹陷中。",
+   "anatomy_note": "浅层：第4跖背动脉的分支；深层：趾短伸肌腱、跖长伸肌腱。⚠️足背有动脉，禁深刺。",
+   "depth_limit": "直刺0.3～0.5寸",
+   "indications": [
+    "头痛",
+    "眩晕",
+    "耳鸣",
+    "耳聋",
+    "目外眦痛",
+    "颊肿",
+    "胸胁痛",
+    "膝痛",
+    "足跗肿痛",
+    "热病",
+    "癫痫"
+   ],
+   "needling": "直刺；可灸。",
+   "contraindication": "⚠️足背动脉分支，禁深刺。",
+   "self_moxa_safe": true,
+   "verified": false
+  },
+  {
+   "id": "A166",
+   "name": "阳辅",
+   "code": "GB44",
+   "source_system": "经穴",
+   "meridian": "足少阳胆经",
+   "location": "在小腿外侧，第4跖骨底与第5跖骨底结合部的前下方凹陷中。",
+   "anatomy_note": "浅层：第4跖背动脉的分支；深层：趾长伸肌腱、腓骨短肌。",
+   "depth_limit": "直刺0.5～0.8寸",
+   "indications": [
+    "偏头痛",
+    "目外眦痛",
+    "腋下肿痛",
+    "胸胁痛",
+    "下肢痿痹",
+    "足跗肿痛",
+    "胆病"
+   ],
+   "needling": "直刺，针尖略向上；可灸。",
+   "contraindication": "禁深刺，以免伤及足背动脉。",
+   "self_moxa_safe": true,
+   "verified": false
+  },
+  {
+   "id": "A167",
+   "name": "足临泣",
+   "code": "GB41",
+   "source_system": "经穴",
+   "meridian": "足少阳胆经",
+   "location": "在足背，第4跖骨底与第5跖底结合部的前方，第5跖长肌腱的外侧凹陷中。",
+   "anatomy_note": "浅层：第4跖背动脉的分支；深层：趾短伸肌、跖长伸肌腱。⚠️穴下有腓骨短肌与足背动脉分支。",
+   "depth_limit": "直刺0.3～0.5寸",
+   "indications": [
+    "偏头痛",
+    "目赤肿痛",
+    "胁肋痛",
+    "乳痈",
+    "瘰疬",
+    "足跗肿痛",
+    "热病",
+    "月经不调",
+    "带下"
+   ],
+   "needling": "直刺；可灸。",
+   "contraindication": "⚠️足背动脉分支，禁深刺、禁提插。",
+   "self_moxa_safe": true,
+   "verified": false
+  },
+  {
+   "id": "A168",
+   "name": "腰阳关",
+   "code": "GV3",
+   "source_system": "经穴",
+   "meridian": "督脉",
+   "location": "在脊柱后正中线上，第4腰椎棘突下凹陷中。",
+   "anatomy_note": "浅层：腰背筋膜；深层：棘突间韧带、棘突肌；深方为腰椎管。⚠️⚠️再深即达硬膜外腔，腰椎间盘突出急性期禁直刺深刺。",
+   "depth_limit": "直刺0.5～1寸",
+   "indications": [
+    "腰骶疼痛",
+    "下肢痿痹",
+    "遗精",
+    "阳痿",
+    "月经不调",
+    "带下",
+    "泄泻",
+    "痢疾"
+   ],
+   "needling": "直刺，针尖略向上；可灸。",
+   "contraindication": "⚠️⚠️⚠️深方为腰椎管与脊髓，禁深刺、禁提插，禁在腰椎间盘突出急性期直刺；孕妇禁针。",
+   "self_moxa_safe": true,
+   "verified": false
+  },
+  {
+   "id": "A169",
+   "name": "风府",
+   "code": "GV16",
+   "source_system": "经穴",
+   "meridian": "督脉",
+   "location": "在项后区，枕骨上缘凹陷中。",
+   "anatomy_note": "浅层：枕动脉的分支；深层：头夹肌（枕大神经、副神经、枕动脉在此交织）。⚠️⚠️⚠️枕骨大孔紧邻其下，深刺可经枕骨大孔入颅，损伤延髓。",
+   "depth_limit": "直刺或向下斜刺0.5～1寸",
+   "indications": [
+    "头痛",
+    "项强",
+    "眩晕",
+    "中风",
+    "癫狂痫",
+    "咽喉肿痛",
+    "暴喑",
+    "感冒"
+   ],
+   "needling": "直刺或向下方斜刺，针尖朝向鼻尖方向；宜浅；可灸。",
+   "contraindication": "⚠️⚠️⚠️⚠️枕骨大孔在该穴下方约1cm，深刺可刺入颅腔伤及延髓（可致呼吸骤停）；严禁深刺、严禁大幅度提插捻转；椎动脉型颈椎病、严重骨质疏松者禁针或极浅刺。",
+   "self_moxa_safe": true,
+   "verified": false
+  },
+  {
+   "id": "A170",
+   "name": "哑门",
+   "code": "GV15",
+   "source_system": "经穴",
+   "meridian": "督脉",
+   "location": "在项后区，第2颈椎棘突上际凹陷中。",
+   "anatomy_note": "浅层：枕动脉的分支；深层：项韧带；⚠️⚠️⚠️再深即达椎管，内有脊髓与椎动脉、椎静脉。",
+   "depth_limit": "直刺或向下斜刺0.5～1寸",
+   "indications": [
+    "暴喑",
+    "舌强不语",
+    "癫狂痫",
+    "头痛",
+    "项强",
+    "中风",
+    "失眠",
+    "鼻衄"
+   ],
+   "needling": "直刺或向下方斜刺，针尖朝向口腔方向；宜浅；可灸。",
+   "contraindication": "⚠️⚠️⚠️⚠️深方为椎管与脊髓（延髓下端），深刺可致瘫痪或呼吸停止；严禁深刺、严禁提插；禁灸宜慎灸。",
+   "self_moxa_safe": true,
+   "verified": false
+  },
+  {
+   "id": "A171",
+   "name": "阑尾",
+   "code": "EX-LE7",
+   "source_system": "经穴",
+   "meridian": "经外奇穴",
+   "location": "在小腿外侧，髌韧带外侧凹陷下5寸，胫骨前嵴外一横指。",
+   "anatomy_note": "浅层：胫前动脉的分支、腓深神经；深层：胫骨前肌、趾长伸肌。⚠️穴下有胫前动脉与腓深神经。",
+   "depth_limit": "直刺1～1.5寸",
+   "indications": [
+    "急慢性阑尾炎",
+    "消化不良",
+    "腹痛",
+    "泄泻",
+    "下肢痿痹"
+   ],
+   "needling": "直刺，针尖略向内下方；可灸。",
+   "contraindication": "⚠️⚠️⚠️阑尾炎属急腹症，本穴只作辅助，不能替代外科处理；禁深刺大幅提插（防胫前动脉、腓深神经损伤）；孕妇禁针。",
+   "self_moxa_safe": true,
+   "verified": false
+  },
+  {
+   "id": "A172",
+   "name": "胆囊",
+   "code": "EX-LE6",
+   "source_system": "经穴",
+   "meridian": "经外奇穴",
+   "location": "在小腿外侧，腓骨小头直下2寸。",
+   "anatomy_note": "浅层：腓动脉的分支；深层：腓长肌。",
+   "depth_limit": "直刺1～1.5寸",
+   "indications": [
+    "急慢性胆囊炎",
+    "胆石症",
+    "胆道蛔虫症",
+    "胁痛",
+    "下肢痿痹",
+    "坐骨神经痛"
+   ],
+   "needling": "直刺，针尖略向内下方；可灸。",
+   "contraindication": "⚠️⚠️⚠️⚠️胆囊炎、胆结石、胆道蛔虫均可危及生命，本穴只作辅助，必须先外科处理；禁深刺猛刺；孕妇禁针。",
+   "self_moxa_safe": true,
+   "verified": false
+  },
+  {
+   "id": "A173",
+   "name": "膝眼",
+   "code": "EX-LE5",
+   "source_system": "经穴",
+   "meridian": "经外奇穴",
+   "location": "在膝部，屈膝，髌韧带两侧凹陷处。内侧称内膝眼，外侧称外膝眼。",
+   "anatomy_note": "浅层：膝关节动脉网；深层：膝关节囊。⚠️膝关节腔与半月板在关节腔内，深刺可致关节腔感染或损伤半月板。",
+   "depth_limit": "向膝中斜刺0.5～1寸，或透刺对侧膝眼",
+   "indications": [
+    "膝痛",
+    "膝关节炎",
+    "鹤膝风",
+    "腿痛",
+    "脚气",
+    "膝关节积液",
+    "膝痹"
+   ],
+   "needling": "屈膝位，向膝关节腔斜刺，可由内膝眼透外膝眼（或反向）；可灸。",
+   "contraindication": "⚠️⚠️⚠️严禁直刺深刺，以免刺入关节腔致感染或损伤半月板；宜向膝中斜刺。孕妇禁针。",
    "self_moxa_safe": true,
    "verified": false
   }

@@ -86,14 +86,23 @@ def apply(items: list[dict], batch: str) -> int:
         print(f"   共 {len(errs)} 个问题")
         return 1
 
-    have_code = {a.get("code") for a in data["acupoints"] if a.get("code")}
+    have_code = {a.get("code"): a["name"]
+                 for a in data["acupoints"] if a.get("code")}
     have_name = {a.get("name") for a in data["acupoints"]}
     nid = next_id(data)
     seq = int(nid[1:])
     added, skipped = 0, []
+    # 同 code 但穴名不同 = 编码冲突，必须报出来。
+    # 原实现只判「code 是否存在」就静默跳过，导致过 EX-LE5 被说明条目占用、
+    # 真正的膝眼被丢弃且无人察觉——静默掩盖问题比报错危险得多。
+    conflicts = []
 
     for a in items:
-        # 同 code 或同名都算重复，避免双写
+        owner = have_code.get(a["code"])
+        if owner is not None and owner != a["name"]:
+            conflicts.append(
+                f"编码冲突：{a['code']} 已被「{owner}」占用，"
+                f"但本批要录「{a['name']}」——请先修占用者的编码")
         if a["code"] in have_code or a["name"] in have_name:
             skipped.append(a["name"])
             continue
@@ -107,10 +116,17 @@ def apply(items: list[dict], batch: str) -> int:
             "verified": False,
         }
         data["acupoints"].append(rec)
-        have_code.add(a["code"])
+        have_code[a["code"]] = a["name"]
         have_name.add(a["name"])
         seq += 1
         added += 1
+
+    if conflicts:
+        print("✗ 发现编码冲突，未写入任何数据：")
+        for c in conflicts:
+            print("   -", c)
+        print("   冲突往往说明库里有条目占错了编码，需先人工修正。")
+        return 1
 
     F.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"[{batch}] 新增 {added} 穴"
