@@ -7,9 +7,21 @@
 
 ---
 
-## ⬇️ 下载使用
+## 🌐 在线使用（手机电脑都行）
 
-### 最省事：下载即用（180 KB，解压双击 `index.html`）
+### 👉 **https://zhiyuan-wenbing.pages.dev/**
+
+手机浏览器 / 电脑浏览器直接打开，无需注册、无需下载、无需联网调用任何第三方。
+
+- 全部计算在浏览器内完成，数据不上传、不存储
+- 已适配手机（iPhone / 安卓）与桌面
+- 无需配置任何 API Key 即可使用全部功能
+
+---
+
+## ⬇️ 下载离线版
+
+### 下载即用（180 KB，解压双击 `index.html`）
 
 **👉 [zhiyuan-wenbing-v1.0.zip](https://github.com/zejunzhou69-ux/zhiyuan-wenbing/releases/download/v1.0.0/zhiyuan-wenbing-v1.0.zip)**
 
@@ -30,14 +42,12 @@
 
 ### 手机上怎么用
 
-手机需要网址，本地包打不开。两种办法：
+**直接打开线上地址**：https://zhiyuan-wenbing.pages.dev/
 
-1. **部署一份到自己的静态托管**（免费）：把 `static/` 目录上传到
-   GitHub Pages / Cloudflare Pages / Vercel，手机浏览器打开那个网址
-2. **同一 Wi-Fi 下局域网共用**：电脑上执行 `npx serve static`，
-   手机浏览器打开 `http://电脑IP:3000`
+如果要用下载的离线包（需要离线场景）：
 
-> 想省事的话，Cloudflare Pages 部署只要一条命令，见文末「部署」。
+1. 把 `static/` 目录传到任意静态托管（GitHub Pages / Cloudflare Pages / Vercel）
+2. 或在同一 Wi-Fi 下执行 `npx serve static`，手机访问 `http://电脑IP:3000`
 
 ---
 
