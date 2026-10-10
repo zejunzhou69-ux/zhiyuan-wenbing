@@ -19,3 +19,8 @@ venv/
 Thumbs.db
 desktop.ini
 package-lock.json
+
+# ---- 测试产物（可重跑生成，不入库）----
+test_*.png
+# 打包产物：走 GitHub Release 分发，不塞进仓库历史
+release/

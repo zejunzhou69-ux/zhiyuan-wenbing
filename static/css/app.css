@@ -52,8 +52,104 @@ button.ghost{background:transparent;color:var(--accent);border:1px solid var(--a
 .loading{text-align:center;padding:26px;color:var(--sub)}
 footer{max-width:920px;margin:0 auto;padding:8px 18px 30px;font-size:12px;color:var(--sub)}
 footer a{color:var(--accent)}
-@media(max-width:600px){
-  .msg.me{margin-left:20px}
+/* ============================================================
+   移动端适配
+   设计约束：
+   1) 所有可输入元素字号 >=16px，否则 iOS Safari 聚焦时会自动放大页面
+   2) 可点区域 >=44px（苹果 HIG 最小触摸目标）
+   3) 尊重 iPhone 刘海与底部 home 条（env(safe-area-inset-*））
+   4) 禁用横屏自动放大字号
+   ============================================================ */
+
+/* --- 平板 / 小屏笔记本 --- */
+@media(max-width:900px){
+  main{padding:14px}
+  .card{padding:16px}
+  .msg.me{margin-left:40px}
+}
+
+/* --- 手机主适配 --- */
+@media(max-width:640px){
+  /* 禁止横屏时浏览器自动放大字号 */
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+
+  body{line-height:1.75;overflow-x:hidden}
+
+  /* header：手机上改为两行紧凑布局，避免元素挤成一团 */
+  header{
+    padding:calc(8px + env(safe-area-inset-top)) 12px 8px;
+    gap:8px;flex-wrap:wrap;
+    position:sticky;top:0;
+  }
+  h1{font-size:17px;letter-spacing:1px}
+  /* 副标题与徽标并排，不再各占一行 —— header 是 sticky 的，
+     每高一行就等于每次滚动都多遮一屏内容 */
+  .sub{order:5;font-size:11px;line-height:1.4;flex:1;min-width:0}
+  .badge{order:6;font-size:11px;padding:2px 8px;flex:none}
+
+  /* 标签页：撑满一行，方便手指点 */
+  .tabs{order:2;flex:1;min-width:0}
+  .tabs button{
+    flex:1;text-align:center;
+    padding:11px 6px;      /* >=44px 触摸高度 */
+    font-size:15px;
+  }
+
+  /* 进度条独占一行，放在标签页下方 */
+  .progress{order:4;flex-basis:100%;min-width:0}
+  .bar{height:6px}
+  .meta{font-size:11px;margin-top:2px}
+
   main{padding:12px}
-  .progress{order:9;flex-basis:100%}
+  .card{padding:14px;border-radius:12px;margin-bottom:12px}
+  .card h2{font-size:15px;line-height:1.6}
+
+  /* 输入控件：字号必须 >=16px，否则 iOS 聚焦时页面被放大 */
+  label{font-size:15px;margin:8px 12px 8px 0}
+  input,select,textarea{font-size:16px;padding:11px 10px;width:100%!important}
+  select,input[type=number]{width:auto!important;min-width:88px}
+
+  button.go,.ghost{font-size:16px;padding:12px 22px;min-height:46px}
+  button.go{width:100%;margin-bottom:8px}
+
+  /* 消息气泡：手机上左右满宽，可读性优先 */
+  .msg{padding:12px 13px;border-radius:10px;margin-bottom:12px}
+  .msg.me{margin-left:0;max-width:88%;align-self:flex-end}
+  .msg.bot{max-width:100%}
+  .msg h4{font-size:15px}
+  .msg pre{font-size:14px;line-height:1.72}
+
+  /* 输入区：手机上改为纵向堆叠，按钮独占整行 */
+  .composer{flex-direction:column;gap:8px}
+  .composer textarea,.composer input{min-height:80px;font-size:16px}
+  .composer button{width:100%;min-height:46px;font-size:16px}
+
+  .kindrow{gap:7px}
+  .kind{padding:9px 14px;font-size:14px;min-height:38px;display:inline-flex;align-items:center}
+  .chips{gap:6px}
+  .chip{padding:6px 11px;font-size:13px;min-height:32px;display:inline-flex;align-items:center}
+  .tip{font-size:12.5px;line-height:1.6}
+  .loading{padding:30px 14px}
+
+  footer{
+    padding:8px 14px calc(24px + env(safe-area-inset-bottom));
+    font-size:12px;line-height:1.7;
+  }
+}
+
+/* --- 小屏手机（如 SE） --- */
+@media(max-width:380px){
+  h1{font-size:16px}
+  .tabs button{font-size:14px;padding:11px 4px}
+  .kind{padding:8px 11px;font-size:13px}
+  .card{padding:12px}
+  .msg pre{font-size:13.5px}
+}
+
+/* --- 横屏手机：高度紧张，压缩纵向留白 --- */
+@media(orientation:landscape) and (max-height:500px){
+  header{padding-top:calc(6px + env(safe-area-inset-top));padding-bottom:6px}
+  h1{font-size:16px}
+  .sub{display:none}
+  .composer textarea,.composer input{min-height:52px}
 }

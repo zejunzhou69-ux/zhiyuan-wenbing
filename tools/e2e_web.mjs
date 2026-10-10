@@ -85,7 +85,10 @@ const kb = await G.loadKB();
 const safety = new G.Safety(kb);
 const inv = new G.Inverse(kb);
 G.setInverseKB(kb);
-t('知识库 55方/125证型', kb.formulas.length === 55 && kb.syndromes.length === 125);
+// 用下限断言而不是写死具体数字：知识库会持续扩充，写死会让每次补录都误报失败。
+// 下限取首批基线，保证「数据丢失」和「整体没加载」仍能被发现。
+t('知识库已加载（>=55方/>=125证型）',
+  kb.formulas.length >= 55 && kb.syndromes.length >= 125 && kb.diseases.length >= 35);
 
 const sess = new G.FourDiagSession({ sex: 'female', age: 30 });
 // 模拟 app.js 的真实归位逻辑：第一条无条件当主诉，其余按 inferField
